@@ -1,0 +1,139 @@
+fileFormatVersion: 2
+guid: 5b83e713c7d02fe48b16034fc7d799d6
+timeCreated: 1462561444
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: brows
+    100002: Character_mesh
+    100004: eyes
+    100006: hands
+    100008: legs
+    100010: //RootNode
+    100012: StoneyRig_
+    100014: StoneyRig_head
+    100016: StoneyRig_headLBrow
+    100018: StoneyRig_headLEye
+    100020: StoneyRig_headRBrow
+    100022: StoneyRig_headREye
+    100024: StoneyRig_LArm1
+    100026: StoneyRig_LArm2
+    100028: StoneyRig_LArmPalm
+    100030: StoneyRig_LLeg1
+    100032: StoneyRig_LLeg2
+    100034: StoneyRig_LLegAnkle
+    100036: StoneyRig_LLegPlatform
+    100038: StoneyRig_pelvis
+    100040: StoneyRig_RArm1
+    100042: StoneyRig_RArm2
+    100044: StoneyRig_RArmPalm
+    100046: StoneyRig_RLeg1
+    100048: StoneyRig_RLeg2
+    100050: StoneyRig_RLegAnkle
+    100052: StoneyRig_RLegPlatform
+    100054: StoneyRig_Spine
+    400000: brows
+    400002: Character_mesh
+    400004: eyes
+    400006: hands
+    400008: legs
+    400010: //RootNode
+    400012: StoneyRig_
+    400014: StoneyRig_head
+    400016: StoneyRig_headLBrow
+    400018: StoneyRig_headLEye
+    400020: StoneyRig_headRBrow
+    400022: StoneyRig_headREye
+    400024: StoneyRig_LArm1
+    400026: StoneyRig_LArm2
+    400028: StoneyRig_LArmPalm
+    400030: StoneyRig_LLeg1
+    400032: StoneyRig_LLeg2
+    400034: StoneyRig_LLegAnkle
+    400036: StoneyRig_LLegPlatform
+    400038: StoneyRig_pelvis
+    400040: StoneyRig_RArm1
+    400042: StoneyRig_RArm2
+    400044: StoneyRig_RArmPalm
+    400046: StoneyRig_RLeg1
+    400048: StoneyRig_RLeg2
+    400050: StoneyRig_RLegAnkle
+    400052: StoneyRig_RLegPlatform
+    400054: StoneyRig_Spine
+    4300000: Character_mesh
+    4300002: hands
+    4300004: brows
+    4300006: eyes
+    4300008: legs
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: brows
+    13700002: Character_mesh
+    13700004: eyes
+    13700006: hands
+    13700008: legs
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
