@@ -2,10 +2,13 @@
 using UnityEditor;
 using System.Collections;
 using System.IO;
+using System.Collections.Generic;
 
 [CustomEditor(typeof(MapManager))]
 public class MapManagerInspector : Editor
 {
+    static Dictionary<char, TILESTYLE> mShortCutTileMap = new Dictionary<char, TILESTYLE>();
+
     public override void OnInspectorGUI()
     {
         MapManager mapManager = target as MapManager;
@@ -23,6 +26,17 @@ public class MapManagerInspector : Editor
 
         CommonEditorUI.DrawSeparator(Color.cyan);
         ShowTiles(mapManager);
+    }
+
+    void Init()
+    {
+        if(mShortCutTileMap.Count == 0)
+        {
+            mShortCutTileMap.Add('3', TILESTYLE.NORMAL);
+            mShortCutTileMap.Add('4', TILESTYLE.STRAIGHT);
+            mShortCutTileMap.Add('5', TILESTYLE.CORNER);
+            mShortCutTileMap.Add('6', TILESTYLE.START);
+        }
     }
 
     void DrawSaveLoadButton(MapManager mapManager)
@@ -51,11 +65,11 @@ public class MapManagerInspector : Editor
                 textWriter.WriteLine("width " + width);
                 textWriter.WriteLine("height " + height);
 
-                for (int i = 0; i < width; ++i)
+                for (int row = 0; row < width; ++row)
                 {
-                    for (int j = 0; j < height; ++j)
+                    for (int col = 0; col < height; ++col)
                     {
-                        Transform tile = mapManager.mTiles[i, j].transform;
+                        Transform tile = mapManager.mTiles[row*mapManager.mCurrentWidth + col].transform;
                         textWriter.Write(tile.position + "\t");
                         textWriter.Write(tile.eulerAngles + "\t");
 
@@ -185,29 +199,10 @@ public class MapManagerInspector : Editor
 
         if (e.isKey)
         {
-            if (e.character == '3')
+            TILESTYLE nextTileStyle = TILESTYLE.END;
+            if(mShortCutTileMap.TryGetValue(e.character, out nextTileStyle))
             {
-                mapManager.mEditTileStyle = TILESTYLE.NORMAL;
-            }
-
-            if (e.character == '4')
-            {
-                mapManager.mEditTileStyle = TILESTYLE.STRAIGHT;
-            }
-
-            if (e.character == '5')
-            {
-                mapManager.mEditTileStyle = TILESTYLE.CORNER;
-            }
-
-            if (e.character == '6')
-            {
-                mapManager.mEditTileStyle = TILESTYLE.START;
-            }
-
-            if (e.character == '7')
-            {
-                mapManager.mEditTileStyle = TILESTYLE.END;
+                mapManager.mEditTileStyle = nextTileStyle;
             }
         }
 
@@ -227,8 +222,8 @@ public class MapManagerInspector : Editor
             if (result)
             {
                 GameObject tileObj = hit.transform.gameObject;
-                TileInfomation tileInfo = tileObj.GetComponent<TileInfomation>();
-                if (tileInfo == null)
+                TileInfomation tileInfomation = tileObj.GetComponent<TileInfomation>();
+                if (tileInfomation == null)
                 {
                     return;
                 }
@@ -244,11 +239,8 @@ public class MapManagerInspector : Editor
                     }
                     else
                     {
-                        tileInfo.currentTileStyle = mapManager.mEditTileStyle;
-                        tileInfo.UpdateMaterial();
-
-                        tileInfo.currentTileStyle = mapManager.mEditTileStyle;
-                        tileInfo.UpdateMaterial();
+                        tileInfomation.currentTileStyle = mapManager.mEditTileStyle;
+                        tileInfomation.UpdateMaterial();
                     }
                 }
                 else if (e.button == 1) //right click button
@@ -272,7 +264,6 @@ public class MapManagerInspector : Editor
         }
 
         DrawPathList(mapManager);
-
     }
 
     public void CreateTiles(MapManager mapManager)
@@ -280,19 +271,19 @@ public class MapManagerInspector : Editor
         int width = mapManager.mCurrentWidth;
         int height = mapManager.mCurrentHeight;
 
-        mapManager.mTiles = new GameObject[width, height];
+        mapManager.mTiles = new List<GameObject>(width * height+1);
 
-        for (int i = 0; i < width; ++i)
+        for (int row = 0; row < width; ++row)
         {
-            for (int j = 0; j < height; j++)
+            for (int col = 0; col < height; col++)
             {
                 GameObject obj = Instantiate(mapManager.mBaseTilePrefab) as GameObject;
                 obj.transform.parent = mapManager.transform;
-                obj.transform.localPosition = new Vector3(i, 0.0f, j);
-                obj.name = i + "_" + j;
-                mapManager.mTiles[i, j] = obj;
+                obj.transform.localPosition = new Vector3(row, 0.0f, col);
+                obj.name = row + "_" + col;
+                mapManager.mTiles.Add(obj);
 
-                TileInfomation tileInfo = mapManager.mTiles[i, j].GetComponent<TileInfomation>();
+                TileInfomation tileInfo = mapManager.mTiles[row * mapManager.mCurrentWidth + col].GetComponent<TileInfomation>();
                 tileInfo.UpdateMaterial();
             }
         }
@@ -305,18 +296,18 @@ public class MapManagerInspector : Editor
             return;
         }
 
-        int width = mapManager.mTiles.GetLength(0);
-        int height = mapManager.mTiles.GetLength(1);
+        int width = mapManager.mCurrentWidth;
+        int height = mapManager.mCurrentHeight;
 
         EditorGUILayout.LabelField("Tiles Width : " + width);
         EditorGUILayout.LabelField("Tiles Height : " + height);
 
-        for (int i = 0; i < width; ++i)
+        for (int row = 0; row < width; ++row)
         {
-            for (int j = 0; j < height; ++j)
+            for (int col = 0; col < height; ++col)
             {
-                string text = string.Format("Tile ({0}),{1})", i, j);
-                EditorGUILayout.ObjectField(text, mapManager.mTiles[i, j], typeof(GameObject), true);
+                string text = string.Format("Tile ({0}),{1})", row, col);
+                EditorGUILayout.ObjectField(text, mapManager.mTiles[row * mapManager.mCurrentWidth + col], typeof(GameObject), true);
             }
         }
     }

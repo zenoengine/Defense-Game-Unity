@@ -15,11 +15,14 @@ public class MapManager : MonoBehaviour {
     public int mCurrentHeight = 11;
 
     public TILESTYLE mEditTileStyle = TILESTYLE.NORMAL;
+    
+//    public GameObject[,] mTiles;
+    public List<GameObject> mTiles;
 
-    public GameObject[,] mTiles;
+    public List<GameObject> mStoredTile;
 
     public List<Transform> mPathList = new List<Transform>();
-
+    
     public string mFileName = "MapData";
 
     public Vector3 GetVector3FromString(string text)
@@ -44,7 +47,7 @@ public class MapManager : MonoBehaviour {
             return mInstance;
         }
     }
-
+    
     void Awake()
     {
         mInstance = this;
@@ -77,18 +80,19 @@ public class MapManager : MonoBehaviour {
         text = textReader.ReadLine();
         string heightText = text.Substring(text.IndexOf(' ') + 1);
         mCurrentHeight = int.Parse(heightText);
-        
-        mTiles = new GameObject[mCurrentWidth, mCurrentHeight];
 
-        for (int i = 0; i < mCurrentWidth; ++i)
+        //mTiles = new GameObject[mCurrentWidth, mCurrentHeight];
+        mTiles = new List<GameObject>(mCurrentWidth * mCurrentHeight + 1);
+
+        for (int row = 0; row < mCurrentWidth; ++row)
         {
-            for (int j = 0; j < mCurrentHeight; ++j)
+            for (int col = 0; col < mCurrentHeight; ++col)
             {
                 text = textReader.ReadLine();
                 string[] infos = text.Split('\t');
 
                 GameObject obj = Instantiate(mBaseTilePrefab) as GameObject;
-                obj.name = i + "_" + j;
+                obj.name = row + "_" + col;
                 obj.transform.parent = transform;
 
                 obj.transform.localPosition = GetVector3FromString(infos[0]);
@@ -98,7 +102,9 @@ public class MapManager : MonoBehaviour {
                 tileInfomation.currentTileStyle = (TILESTYLE)(int.Parse(infos[2]));
                 tileInfomation.UpdateMaterial();
 
-                mTiles[i, j] = obj;
+                //mTiles[i, j] = obj;
+                mStoredTile.Add(obj);
+                mTiles.Add(obj);
             }
         }
         
@@ -113,7 +119,7 @@ public class MapManager : MonoBehaviour {
             int x = int.Parse(tiles[0]);
             int y = int.Parse(tiles[1]);
 
-            mPathList.Add(mTiles[x, y].transform);
+            mPathList.Add(mTiles[x * mCurrentHeight + y].transform);
         }
 
     }//End of LoadMap DataFromFile
@@ -142,6 +148,8 @@ public class MapManager : MonoBehaviour {
         mPathList.Clear();
         gameObjectList.Clear();
         gameObjectList = null;
-        mTiles = null;
+        mTiles.Clear();
+        //mTiles = null;
+
     }
 }
