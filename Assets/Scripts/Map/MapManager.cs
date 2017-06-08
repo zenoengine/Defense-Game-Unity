@@ -16,7 +16,6 @@ public class MapManager : MonoBehaviour {
 
     public TILESTYLE mEditTileStyle = TILESTYLE.NORMAL;
     
-//    public GameObject[,] mTiles;
     public List<GameObject> mTiles;
 
     public List<GameObject> mStoredTile;
@@ -59,6 +58,22 @@ public class MapManager : MonoBehaviour {
         return mPathList.ToArray();
     }
 
+    public bool GetBoundary(out Vector3 begin, out Vector3 end)
+    {
+        begin = Vector3.zero;
+        end = Vector3.zero;
+
+        if (mTiles.Count == 0)
+        {
+            return false;
+        }
+
+        begin = mTiles[0].transform.position;
+        end = mTiles[mTiles.Count-1].transform.position;
+
+        return true;
+    }
+
     public void LoadMapDataFromFile()
     {
         RemoveAllTiles();
@@ -80,8 +95,7 @@ public class MapManager : MonoBehaviour {
         text = textReader.ReadLine();
         string heightText = text.Substring(text.IndexOf(' ') + 1);
         mCurrentHeight = int.Parse(heightText);
-
-        //mTiles = new GameObject[mCurrentWidth, mCurrentHeight];
+        
         mTiles = new List<GameObject>(mCurrentWidth * mCurrentHeight + 1);
 
         for (int row = 0; row < mCurrentWidth; ++row)
@@ -101,8 +115,7 @@ public class MapManager : MonoBehaviour {
                 TileInfomation tileInfomation = obj.GetComponent<TileInfomation>();
                 tileInfomation.currentTileStyle = (TILESTYLE)(int.Parse(infos[2]));
                 tileInfomation.UpdateMaterial();
-
-                //mTiles[i, j] = obj;
+                
                 mStoredTile.Add(obj);
                 mTiles.Add(obj);
             }
@@ -122,7 +135,7 @@ public class MapManager : MonoBehaviour {
             mPathList.Add(mTiles[x * mCurrentHeight + y].transform);
         }
 
-    }//End of LoadMap DataFromFile
+    }
 
     public void RemoveAllTiles()
     {
@@ -149,7 +162,5 @@ public class MapManager : MonoBehaviour {
         gameObjectList.Clear();
         gameObjectList = null;
         mTiles.Clear();
-        //mTiles = null;
-
     }
 }
