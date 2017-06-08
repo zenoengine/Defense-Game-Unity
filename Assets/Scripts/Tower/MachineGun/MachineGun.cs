@@ -28,7 +28,10 @@ public class MachineGun : MonoBehaviour {
 	void Update () {
 		if (mCurrentTarget == null) 
 		{
-			return ;
+            GetComponent<Collider>().enabled = false;
+            GetComponent<Collider>().enabled = true;
+
+            return;
 		}
 
 		mLockTarget.RotateToTarget (mCurrentTarget.transform);
@@ -50,7 +53,7 @@ public class MachineGun : MonoBehaviour {
 	{
 		if (mCurrentTarget == null) 
 		{
-			return ;		
+            return ;		
 		}
 
 		foreach (GunAnimation muzzleFlash in mGunAnimationsFlashs) 
@@ -58,12 +61,12 @@ public class MachineGun : MonoBehaviour {
 			muzzleFlash.ActiveMuzzleFlash(fireActiveTime);
 		}
 
-		//EnemyState enemyState = currentTarget.GetComponent<EnemyState> ();
-		//if (enemyState != null) 
-		//{
-		//	enemyState.Damage (transform, fireActiveTime);		
-		//}
-	}
+        EnemyState enemyState = mCurrentTarget.GetComponent<EnemyState>();
+        if (enemyState != null)
+        {
+            enemyState.Damage(transform, fireActiveTime);
+        }
+    }
 
 	void OnTriggerEnter( Collider other)
 	{
