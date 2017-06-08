@@ -40,6 +40,10 @@ public class WaveManager : MonoBehaviour {
         for (int i = 0; i < wave.spawnEnemyCount; ++i)
         {
             GameObject enemy = Instantiate(wave.enemyPrefab) as GameObject;
+
+            //HACK : For catach when enemy instantiate in tower trigger
+            enemy.GetComponent<Collider>().enabled = false;
+            enemy.GetComponent<Collider>().enabled = true;
             yield return new WaitForSeconds((wave.spawnEnemyTime));
         }
         yield return new WaitForSeconds(mWaveDelayTime);
