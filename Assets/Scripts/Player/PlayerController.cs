@@ -1,14 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private GameObject ClosestItem = null;
-    private GameObject CarriedItem = null;
+    private GameObject mClosestItem = null;
+    private GameObject mCarriedItem = null;
 
     public static float MOVE_AREA_RADIUS = 15.0f;
     public static float MOVE_SPEED = 5.0f;
@@ -137,41 +132,88 @@ public class PlayerController : MonoBehaviour
     {
         GetInput();
         MoveControl();
+        PickOrDropControl();
         mStepTimer += Time.deltaTime;
     }
 
     void OnTriggerStay(Collider other)
     {
-        GameObject other_go = other.gameObject;
-    }
-
-    // 주목을 그만두게 한다.
-    void OnTriggerExit(Collider other)
-    {
+        GameObject otherGameObject = other.gameObject;
+        if (otherGameObject.layer == LayerMask.NameToLayer("Grabbable"))
+        {
+            if (mClosestItem == null)
+            {
+                if (IsOtherInView(otherGameObject))
+                {
+                    mClosestItem = otherGameObject;
+                }
+            }
+            else if (mClosestItem == otherGameObject)
+            {
+                if (!IsOtherInView(otherGameObject))
+                {
+                    mClosestItem = null;
+                }
+            }
+        }
     }
     
-    // 접촉한 물건이 자신의 정면에 있는지 판단한다.
-    private bool is_other_in_view(GameObject other)
+    void OnTriggerExit(Collider other)
+    {
+        if (mClosestItem == other.gameObject)
+        {
+            mClosestItem = null;
+        }
+    }
+
+    private bool IsOtherInView(GameObject other)
     {
         bool ret = false;
-        do
+        
+        Vector3 heading = transform.TransformDirection(Vector3.forward);
+        Vector3 toOther = other.transform.position - transform.position;
+
+        heading.y = 0.0f;
+        toOther.y = 0.0f;
+
+        heading.Normalize();
+        toOther.Normalize();
+
+        float dp = Vector3.Dot(heading, toOther);
+
+        if (dp < Mathf.Cos(45.0f))
         {
-            Vector3 heading = // 자신이 현재 향하고 있는 방향을 보관.
-            this.transform.TransformDirection(Vector3.forward);
-            Vector3 to_other = // 자신 쪽에서 본 아이템의 방향을 보관.
-            other.transform.position - this.transform.position;
-            heading.y = 0.0f;
-            to_other.y = 0.0f;
-            heading.Normalize(); // 길이를 1로 하고 방향만 벡터로.
-            to_other.Normalize(); // 길이를 1로 하고 방향만 벡터로.
-            float dp = Vector3.Dot(heading, to_other); // 양쪽 벡터의 내적을 취득.
-            if (dp < Mathf.Cos(45.0f))
-            { // 내적이 45도인 코사인 값 미만이면.
-                break; // 루프를 빠져나간다.
-            }
-            ret = true; // 내적이 45도인 코사인 값 이상이면 정면에 있다.
-        } while (false);
+            return ret;
+        }
+
+        ret = true;
+
         return (ret);
     }
 
+    private void PickOrDropControl()
+    {
+        if (!this.mKey.pick)
+        {
+            return;
+        }
+        if (this.mCarriedItem == null)
+        {
+            if (this.mClosestItem == null)
+            {
+                return;
+            }
+
+            mCarriedItem = mClosestItem;
+            mCarriedItem.transform.parent = transform;
+            mCarriedItem.transform.localPosition = Vector3.up * 1.8f;
+            mClosestItem = null;
+        }
+        else
+        {
+            mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
+            mCarriedItem.transform.parent = null;
+            mCarriedItem = null;
+        }
+    }
 }
