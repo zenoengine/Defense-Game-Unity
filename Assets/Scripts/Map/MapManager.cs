@@ -50,6 +50,7 @@ public class MapManager : MonoBehaviour {
     void Awake()
     {
         mInstance = this;
+        mFileName = PlayerPrefs.GetString("STAGE_NAME", "DefaultMap");
         LoadMapDataFromFile();
     }
 
