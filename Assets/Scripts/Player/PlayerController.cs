@@ -2,11 +2,12 @@
 
 public class PlayerController : MonoBehaviour
 {
+    private Animator mAnimator = null;
     private GameObject mClosestItem = null;
     private GameObject mCarriedItem = null;
 
     public static float MOVE_AREA_RADIUS = 15.0f;
-    public static float MOVE_SPEED = 5.0f;
+    public static float MOVE_SPEED = 2.0f;
     private struct Key
     {
         public bool up;
@@ -35,6 +36,8 @@ public class PlayerController : MonoBehaviour
     {
         this.mCurrentStep = STEP.NONE;
         this.mNextStep = STEP.MOVE;
+        mAnimator = GetComponent<Animator>();
+        mAnimator.SetBool("Grounded", true);
     }
 
     private void GetInput()
@@ -86,8 +89,9 @@ public class PlayerController : MonoBehaviour
         moveVector *= MOVE_SPEED * Time.deltaTime; 
         position += moveVector;
         position.y = 0.0f;
+        mAnimator.SetFloat("MoveSpeed", moveVector.magnitude*MOVE_SPEED*5);
 
-        
+
         Vector3 beginBoundary;
         Vector3 endBoundary;
         MapManager.instance.GetBoundary(out beginBoundary, out endBoundary);
@@ -197,6 +201,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
         if (this.mCarriedItem == null)
         {
             if (this.mClosestItem == null)
@@ -208,6 +213,7 @@ public class PlayerController : MonoBehaviour
             mCarriedItem.transform.parent = transform;
             mCarriedItem.transform.localPosition = Vector3.up * 1.8f;
             mClosestItem = null;
+            mAnimator.SetBool("Pickup", true);
         }
         else
         {
@@ -234,9 +240,10 @@ public class PlayerController : MonoBehaviour
             }
 
             mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
-
             mCarriedItem.transform.parent = null;
             mCarriedItem = null;
+
+            mAnimator.SetBool("Pickup", true);
         }
     }
 }
