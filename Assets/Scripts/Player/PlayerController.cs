@@ -211,7 +211,30 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            Vector3 heading = transform.position + transform.forward * 1.0f + transform.up*10;
+            Ray ray = new Ray(heading, Vector3.down);
+            RaycastHit hit;
+            int layer = 1 << LayerMask.NameToLayer("Tile");
+            if (Physics.Raycast(ray, out hit, 500, layer))
+            {
+                TileInfomation tileinfomation = hit.collider.gameObject.GetComponent<TileInfomation>();
+                if(tileinfomation == null)
+                {
+                    return;
+                }
+
+                if (tileinfomation.currentTileStyle != TILESTYLE.NORMAL)
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
             mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
+
             mCarriedItem.transform.parent = null;
             mCarriedItem = null;
         }
