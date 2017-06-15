@@ -95,6 +95,13 @@ public class PlayerController : MonoBehaviour
         }
 
 
+
+        moveVector.Normalize();
+        moveVector *= MOVE_SPEED * Time.deltaTime * mMoveSpeedFactor; 
+        position += moveVector;
+        position.y = 0.0f;
+        mAnimator.SetFloat("MoveSpeed", moveVector.magnitude*MOVE_SPEED*5);
+
         Vector3 beginBoundary;
         Vector3 endBoundary;
         MapManager.instance.GetBoundary(out beginBoundary, out endBoundary);
@@ -106,13 +113,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-
-        moveVector.Normalize();
-        moveVector *= MOVE_SPEED * Time.deltaTime * mMoveSpeedFactor; 
-        position += moveVector;
-        position.y = 0.0f;
-        mAnimator.SetFloat("MoveSpeed", moveVector.magnitude*MOVE_SPEED*5);
-
 
 
         position.y = this.transform.position.y;
