@@ -9,6 +9,9 @@ public class MachineGun : MonoBehaviour {
 	float deltaTime = 0.0f;
 	public float fireStateUpdateTime = 0.6f;
 	public float fireActiveTime = 0.5f;
+    public bool IsGrounded = true;
+    
+
     GunAnimation[] mGunAnimationsFlashs = null;
 
 	// Use this for initialization
@@ -26,7 +29,12 @@ public class MachineGun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (mCurrentTarget == null) 
+        if(!IsGrounded)
+        {
+            return;
+        }
+
+        if (mCurrentTarget == null) 
 		{
             GetComponent<Collider>().enabled = false;
             GetComponent<Collider>().enabled = true;

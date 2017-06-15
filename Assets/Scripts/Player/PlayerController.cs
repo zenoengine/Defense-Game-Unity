@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
         EATING,
         NUM,
     };
+
     public STEP mCurrentStep = STEP.NONE;
     public STEP mNextStep = STEP.NONE;
     public float mStepTimer = 0.0f;
@@ -212,6 +213,13 @@ public class PlayerController : MonoBehaviour
             mCarriedItem = mClosestItem;
             mCarriedItem.transform.parent = transform;
             mCarriedItem.transform.localPosition = Vector3.up * 1.8f;
+
+            MachineGun machineGun = mCarriedItem.GetComponent<MachineGun>();
+            if(machineGun)
+            {
+                machineGun.IsGrounded = false;
+            }
+
             mClosestItem = null;
             mAnimator.SetBool("Pickup", true);
         }
@@ -237,6 +245,12 @@ public class PlayerController : MonoBehaviour
             else
             {
                 return;
+            }
+
+            MachineGun machineGun = mCarriedItem.GetComponent<MachineGun>();
+            if (machineGun)
+            {
+                machineGun.IsGrounded = true;
             }
 
             mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
