@@ -6,7 +6,8 @@ public class MachineGun : MonoBehaviour {
     public GameObject mCurrentTarget = null;
 	LockTarget mLockTarget = null;
 
-	float deltaTime = 0.0f;
+    float mDamage = 10;
+	float mDeltaTime = 0.0f;
 	public float fireStateUpdateTime = 0.6f;
 	public float fireActiveTime = 0.5f;
     public bool IsGrounded = true;
@@ -44,14 +45,14 @@ public class MachineGun : MonoBehaviour {
 
 		mLockTarget.RotateToTarget (mCurrentTarget.transform);
 
-		deltaTime += Time.deltaTime;
-		if (deltaTime > fireStateUpdateTime) 
+		mDeltaTime += Time.deltaTime;
+		if (mDeltaTime > fireStateUpdateTime) 
 		{
-			deltaTime += Time.deltaTime;
+			mDeltaTime += Time.deltaTime;
 
-			if(deltaTime > fireStateUpdateTime)
+			if(mDeltaTime > fireStateUpdateTime)
 			{
-				deltaTime = -fireActiveTime;
+				mDeltaTime = -fireActiveTime;
 				FireProcess();
 			}
 		}
@@ -72,7 +73,7 @@ public class MachineGun : MonoBehaviour {
         EnemyState enemyState = mCurrentTarget.GetComponent<EnemyState>();
         if (enemyState != null)
         {
-            enemyState.Damage(transform, fireActiveTime);
+            enemyState.Damage(transform, fireActiveTime, mDamage);
         }
     }
 

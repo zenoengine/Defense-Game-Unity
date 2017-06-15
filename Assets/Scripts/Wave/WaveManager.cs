@@ -13,14 +13,15 @@ public class Wave
 
 public class WaveManager : MonoBehaviour {
 
-    public int mWaveCount = 3;
+    private GameObject mGameUI;
+
     public float mWaveDelayTime = 3.0f;
 
     public List<Wave> mWaveList = new List<Wave>();
 
-    int mCurrentWaveIndex = 0;
+    public int mCurrentWaveIndex = 0;
     bool mWaveProgress = false;
-
+    
     void Update()
     {
         if (mWaveProgress == false)

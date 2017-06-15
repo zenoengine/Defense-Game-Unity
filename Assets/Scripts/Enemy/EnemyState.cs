@@ -9,17 +9,17 @@ public class EnemyState : MonoBehaviour {
     public float mHP = 100;
     public float mMaxHP = 100;
 
-    public void Damage(Transform towerTransform, float fireActiveTime)
+    public void Damage(Transform towerTransform, float fireActiveTime, float damage)
     {
         if (mDamageEffect == null)
         {
             return;
         }
 
-        StartCoroutine(DamageEffectProcess(towerTransform, fireActiveTime));
+        StartCoroutine(DamageEffectProcess(towerTransform, fireActiveTime, damage));
     }
 
-    IEnumerator DamageEffectProcess(Transform towerTransform, float fireActiveTime)
+    IEnumerator DamageEffectProcess(Transform towerTransform, float fireActiveTime, float damage)
     {
         mDamageEffect.Play();
         float deltaTime = 0.0f;
@@ -34,7 +34,7 @@ public class EnemyState : MonoBehaviour {
         }
 
         mDamageEffect.Stop();
-        mHP = mHP - 20;
+        mHP = mHP - damage;
         if(mHP < 0)
         {
             Destroy(gameObject);

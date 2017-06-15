@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     private Animator mAnimator = null;
     private GameObject mClosestItem = null;
     private GameObject mCarriedItem = null;
-
+    private GameObject mGameRoot = null;
     public static float MOVE_AREA_RADIUS = 15.0f;
     public static float MOVE_SPEED = 2.0f;
     private struct Key
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
         this.mNextStep = STEP.MOVE;
         mAnimator = GetComponent<Animator>();
         mAnimator.SetBool("Grounded", true);
+        mGameRoot = GameObject.Find("GameRoot");
     }
 
     private void GetInput()
@@ -256,6 +257,8 @@ public class PlayerController : MonoBehaviour
             mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
             mCarriedItem.transform.parent = null;
             mCarriedItem = null;
+
+            mGameRoot.SendMessage("ReduceRemainedMovement");
 
             mAnimator.SetBool("Pickup", true);
         }

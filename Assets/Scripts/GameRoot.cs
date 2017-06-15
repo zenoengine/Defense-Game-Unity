@@ -70,4 +70,14 @@ public class GameRoot : MonoBehaviour {
         return new Vector3(x, y, z);
     }
 
+    public void ReduceRemainedMovement()
+    {
+        mRemainedMovement--;
+    }
+
+    public void ReduceRemainedLife()
+    {
+        mRemainedLife--;
+    }
+
 }

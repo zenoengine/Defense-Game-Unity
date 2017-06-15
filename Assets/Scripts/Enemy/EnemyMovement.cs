@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour {
 
+    private GameObject mGameRoot = null;
     public Transform[] mPath = null;
     public float mMoveSpeed = 1.0f;
     public float mRotationSpeed = 10.0f;
@@ -24,6 +25,8 @@ public class EnemyMovement : MonoBehaviour {
             mAnimation["Walk"].speed = mWalkAnimationSpeed;
             mAnimation.Play("Walk");
         }
+
+        mGameRoot = GameObject.Find("GameRoot");
     }
 
     void FindNextDesination()
@@ -42,6 +45,7 @@ public class EnemyMovement : MonoBehaviour {
         else
         {
             Destroy(gameObject);
+            mGameRoot.SendMessage("ReduceRemainedLife");
         }
     }
     
