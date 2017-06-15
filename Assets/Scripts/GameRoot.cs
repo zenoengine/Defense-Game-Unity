@@ -20,6 +20,7 @@ public class GameRoot : MonoBehaviour {
 	void Start () {
         mFileName = PlayerPrefs.GetString("STAGE_NAME", "DefaultLevel");
         LoadLevelDataFromFile();
+        SoundManager.Instance.PlayMusic("bgm3_plt", true);
     }
 
     void Update()

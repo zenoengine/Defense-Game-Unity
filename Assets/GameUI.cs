@@ -29,6 +29,7 @@ public class GameUI : MonoBehaviour {
         Time.timeScale = 0;
         mPauseUI.SetActive(true);
         mInGameUI.SetActive(false);
+        SoundManager.Instance.PlaySound("t_se_click", true);
     }
 
     public void OnDestroy()
@@ -41,6 +42,7 @@ public class GameUI : MonoBehaviour {
         Time.timeScale = 1;
         mPauseUI.SetActive(false);
         mInGameUI.SetActive(true);
+        SoundManager.Instance.PlaySound("t_se_click", false);
     }
 
     public void OnClickToggleMuteBtn()
@@ -51,26 +53,39 @@ public class GameUI : MonoBehaviour {
     public void OnClickBackBtn()
     {
         mConfirmUI.SetActive(true);
+        SoundManager.Instance.PlaySound("t_se_click", true);
+
     }
 
     public void OnClickConfirmUIClosedBtn()
     {
         mConfirmUI.SetActive(false);
+        SoundManager.Instance.PlaySound("t_se_click", false);
     }
 
     public void OnClear()
     {
-        mClearUI.SetActive(true);
+        if(!mClearUI.activeSelf)
+        {
+            mClearUI.SetActive(true);
+            SoundManager.Instance.PlaySound("t_se_clear", false);
+            Time.timeScale = 0;
+        }
     }
 
     public void OnGameOver()
     {
-        mGameOverUI.SetActive(true);
-        Time.timeScale = 0;
+        if(!mGameOverUI.activeSelf)
+        {
+            mGameOverUI.SetActive(true);
+            Time.timeScale = 0;
+            SoundManager.Instance.PlaySound("r_se_star_explode", false);
+        }
     }
 
     public void OnClickRestart()
     {
         SceneManager.LoadScene("main");
+        SoundManager.Instance.PlaySound("t_se_click", false);
     }
 }

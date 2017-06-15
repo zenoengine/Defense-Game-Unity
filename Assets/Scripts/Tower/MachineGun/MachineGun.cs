@@ -74,6 +74,7 @@ public class MachineGun : MonoBehaviour, ITower {
         if (enemyState != null)
         {
             enemyState.Damage(transform, fireActiveTime, mDamage, DamageType.MACHINE_GUN);
+            SoundManager.Instance.PlaySound("machine_gun_shot", true);
         }
     }
 

@@ -74,6 +74,7 @@ public class Cannon : MonoBehaviour, ITower {
         if (enemyState != null)
         {
             enemyState.Damage(transform, fireActiveTime, mDamage, DamageType.CANNON);
+            SoundManager.Instance.PlaySound("cannon_shot", true);
         }
     }
 

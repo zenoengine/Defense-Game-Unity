@@ -236,6 +236,8 @@ public class PlayerController : MonoBehaviour
                 mMoveSpeedFactor = mSpeedFactorMap[tower.GetTowerType()];
             }
 
+            SoundManager.Instance.PlaySound("t_se_block_grab", true);
+
             mClosestItem = null;
             mAnimator.SetBool("Pickup", true);
         }
@@ -269,6 +271,8 @@ public class PlayerController : MonoBehaviour
                 tower.SetGrounded(true);
                 mMoveSpeedFactor = 1.0f;
             }
+
+            SoundManager.Instance.PlaySound("t_se_block_grab", true);
 
             mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
             mCarriedItem.transform.parent = null;
