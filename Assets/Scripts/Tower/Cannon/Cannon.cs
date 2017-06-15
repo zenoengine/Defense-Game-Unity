@@ -6,7 +6,7 @@ public class Cannon : MonoBehaviour, ITower {
     public GameObject mCurrentTarget = null;
     LockTarget mLockTarget = null;
 
-    float mDamage = 50;
+    float mDamage = 30;
     float mDeltaTime = 0.0f;
     public float fireStateUpdateTime = 0.6f;
     public float fireActiveTime = 0.5f;

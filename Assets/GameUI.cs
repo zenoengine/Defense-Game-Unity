@@ -66,6 +66,7 @@ public class GameUI : MonoBehaviour {
     public void OnGameOver()
     {
         mGameOverUI.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void OnClickRestart()

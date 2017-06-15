@@ -1,5 +1,6 @@
-max_movement 10
-max_life 10
-tower_count 2
-(5, 0, 1)	0
-(7, 0, 1)	0
+max_movement 5
+max_life 4
+tower_count 3
+(2, 0, 1)	0
+(3, 0, 9)	0
+(3, 0, 8)	1

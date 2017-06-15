@@ -45,8 +45,8 @@ public class PlayerController : MonoBehaviour
         mAnimator.SetBool("Grounded", true);
         mGameRoot = GameObject.Find("GameRoot");
 
-        mSpeedFactorMap.Add(TowerType.CANNON, 0.1f);
-        mSpeedFactorMap.Add(TowerType.MACHINE_GUN, 0.4f);
+        mSpeedFactorMap.Add(TowerType.CANNON, 0.5f);
+        mSpeedFactorMap.Add(TowerType.MACHINE_GUN, 0.8f);
     }
 
     private void GetInput()
@@ -94,17 +94,11 @@ public class PlayerController : MonoBehaviour
             isMoved = true;
         }
 
-        moveVector.Normalize();
-        moveVector *= MOVE_SPEED * Time.deltaTime * mMoveSpeedFactor; 
-        position += moveVector;
-        position.y = 0.0f;
-        mAnimator.SetFloat("MoveSpeed", moveVector.magnitude*MOVE_SPEED*5);
-
 
         Vector3 beginBoundary;
         Vector3 endBoundary;
         MapManager.instance.GetBoundary(out beginBoundary, out endBoundary);
-        
+
         if (position.x >= endBoundary.x ||
             position.z >= endBoundary.z ||
             position.x <= beginBoundary.x ||
@@ -112,6 +106,14 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
+
+        moveVector.Normalize();
+        moveVector *= MOVE_SPEED * Time.deltaTime * mMoveSpeedFactor; 
+        position += moveVector;
+        position.y = 0.0f;
+        mAnimator.SetFloat("MoveSpeed", moveVector.magnitude*MOVE_SPEED*5);
+
+
 
         position.y = this.transform.position.y;
         transform.position = position;
@@ -151,6 +153,11 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
+        if(mCarriedItem)
+        {
+            return;
+        }
+
         GameObject otherGameObject = other.gameObject;
         if (otherGameObject.layer == LayerMask.NameToLayer("Grabbable"))
         {
