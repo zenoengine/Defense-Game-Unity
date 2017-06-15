@@ -7,6 +7,7 @@ public class GameUI : MonoBehaviour {
     public GameObject mConfirmUI;
     public GameObject mInGameUI;
     public GameObject mPauseUI;
+    public GameObject mClearUI;
     public GameRoot mGameRoot;
     public WaveManager mWaveManager;
     public Text mMovementText;
@@ -52,5 +53,10 @@ public class GameUI : MonoBehaviour {
     public void OnClickConfirmUIClosedBtn()
     {
         mConfirmUI.SetActive(false);
+    }
+
+    public void OnClear()
+    {
+        mClearUI.SetActive(true);
     }
 }

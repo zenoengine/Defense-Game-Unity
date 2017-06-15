@@ -10,11 +10,22 @@ public class GameRoot : MonoBehaviour {
     public int mRemainedLife = 0;
     public int mTowerCount = 0;
 
+    public WaveManager mWaveManager;
+    public GameObject GameUIObject;
+
     public GameObject [] towerPrefabs;
 
 	void Start () {
         mFileName = PlayerPrefs.GetString("STAGE_NAME", "DefaultLevel");
         LoadLevelDataFromFile();
+    }
+
+    void Update()
+    {
+        if(mWaveManager.IsWaveFinish() && mWaveManager.IsZeroEnemy())
+        {
+            GameUIObject.SendMessage("OnClear");
+        }
     }
 
     public void LoadLevelDataFromFile()

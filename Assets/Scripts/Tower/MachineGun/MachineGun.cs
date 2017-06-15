@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MachineGun : MonoBehaviour {
+public class MachineGun : MonoBehaviour, ITower {
     public GameObject mCurrentTarget = null;
 	LockTarget mLockTarget = null;
 
@@ -10,7 +10,7 @@ public class MachineGun : MonoBehaviour {
 	float mDeltaTime = 0.0f;
 	public float fireStateUpdateTime = 0.6f;
 	public float fireActiveTime = 0.5f;
-    public bool IsGrounded = true;
+    public bool mIsGrounded = true;
     
 
     GunAnimation[] mGunAnimationsFlashs = null;
@@ -30,7 +30,7 @@ public class MachineGun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(!IsGrounded)
+        if(!mIsGrounded)
         {
             return;
         }
@@ -73,7 +73,7 @@ public class MachineGun : MonoBehaviour {
         EnemyState enemyState = mCurrentTarget.GetComponent<EnemyState>();
         if (enemyState != null)
         {
-            enemyState.Damage(transform, fireActiveTime, mDamage);
+            enemyState.Damage(transform, fireActiveTime, mDamage, DamageType.MACHINE_GUN);
         }
     }
 
@@ -97,4 +97,19 @@ public class MachineGun : MonoBehaviour {
 			mCurrentTarget = null;
 		}
 	}
+
+    public TowerType GetTowerType()
+    {
+        return TowerType.MACHINE_GUN;
+    }
+
+    public bool IsGrounded()
+    {
+        return mIsGrounded;
+    }
+
+    public void SetGrounded(bool value)
+    {
+        mIsGrounded = value;
+    }
 }

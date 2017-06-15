@@ -19,6 +19,8 @@ public class WaveManager : MonoBehaviour {
 
     public List<Wave> mWaveList = new List<Wave>();
 
+    public List<GameObject> mEnemyList = new List<GameObject>(); 
+
     public int mCurrentWaveIndex = 0;
     bool mWaveProgress = false;
     
@@ -41,7 +43,7 @@ public class WaveManager : MonoBehaviour {
         for (int i = 0; i < wave.spawnEnemyCount; ++i)
         {
             GameObject enemy = Instantiate(wave.enemyPrefab) as GameObject;
-
+            mEnemyList.Add(enemy);
             //HACK : For catach when enemy instantiate in tower trigger
             enemy.GetComponent<Collider>().enabled = false;
             enemy.GetComponent<Collider>().enabled = true;
@@ -49,5 +51,30 @@ public class WaveManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(mWaveDelayTime);
         mWaveProgress = false;
+    }
+
+    public int GetWaveCount()
+    {
+        return mWaveList.Count;
+    }
+
+    public void RemoveEnemy(GameObject enemy)
+    {
+        if(enemy == null)
+        {
+            return;
+        }
+
+        mEnemyList.Remove(enemy);
+    }
+
+    public bool IsWaveFinish()
+    {
+        return mCurrentWaveIndex == mWaveList.Count;
+    }
+
+    public bool IsZeroEnemy()
+    {
+        return mEnemyList.Count == 0;
     }
 }

@@ -3,25 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyState : MonoBehaviour {
-    public ParticleSystem mDamageEffect = null;
+    public ParticleSystem mMachineGunDamageEffect = null;
+    public ParticleSystem mCannonDamageEffect = null;
+
     public float mDamageEffectHeight = 1.0f;
     public float mDamageEffectRadiusOffset = 0.11f;
     public float mHP = 100;
     public float mMaxHP = 100;
 
-    public void Damage(Transform towerTransform, float fireActiveTime, float damage)
-    {
-        if (mDamageEffect == null)
-        {
-            return;
-        }
+    Dictionary<DamageType, ParticleSystem> mDamageEffectMap = new Dictionary<DamageType, ParticleSystem>();
 
-        StartCoroutine(DamageEffectProcess(towerTransform, fireActiveTime, damage));
+    void Start()
+    {
+        mDamageEffectMap.Add(DamageType.CANNON, mCannonDamageEffect);
+        mDamageEffectMap.Add(DamageType.MACHINE_GUN, mMachineGunDamageEffect);
     }
 
-    IEnumerator DamageEffectProcess(Transform towerTransform, float fireActiveTime, float damage)
+    public void Damage(Transform towerTransform, float fireActiveTime, float damage, DamageType damageType)
     {
-        mDamageEffect.Play();
+        StartCoroutine(DamageEffectProcess(towerTransform, fireActiveTime, damage, damageType));
+    }
+
+    IEnumerator DamageEffectProcess(Transform towerTransform, float fireActiveTime, float damage, DamageType damageType)
+    {
+        ParticleSystem damageEffect = null;
+        mDamageEffectMap.TryGetValue(damageType, out damageEffect);
+
+        if(damageEffect)
+        {
+            damageEffect.Play();
+        }
+
         float deltaTime = 0.0f;
         while ((deltaTime < fireActiveTime) && (towerTransform) != null)
         {
@@ -29,11 +41,18 @@ public class EnemyState : MonoBehaviour {
             Vector3 dir = towerTransform.position - transform.position;
             dir.y = 0.0f;
             dir.Normalize();
-            mDamageEffect.transform.position = transform.position + (Vector3.up * mDamageEffectHeight) + (mDamageEffectRadiusOffset * dir);
+            if (damageEffect)
+            {
+                damageEffect.transform.position = transform.position + (Vector3.up * mDamageEffectHeight) + (mDamageEffectRadiusOffset * dir);
+            }
             yield return new WaitForEndOfFrame();
         }
 
-        mDamageEffect.Stop();
+        if(damageEffect)
+        {
+            damageEffect.Stop();
+        }
+
         mHP = mHP - damage;
         if(mHP < 0)
         {
@@ -41,5 +60,12 @@ public class EnemyState : MonoBehaviour {
         }
 
         yield return null;
+    }
+
+    void OnDestroy()
+    {
+        GameObject waveManagerObj = GameObject.Find("WaveManager");
+        WaveManager waveManager = waveManagerObj.GetComponent<WaveManager>();
+        waveManager.RemoveEnemy(gameObject);
     }
 }

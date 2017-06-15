@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class PlayerController : MonoBehaviour
     private GameObject mGameRoot = null;
     public static float MOVE_AREA_RADIUS = 15.0f;
     public static float MOVE_SPEED = 2.0f;
+    float mMoveSpeedFactor = 1.0f;
+
+    Dictionary<TowerType, float> mSpeedFactorMap = new Dictionary<TowerType, float>();
     private struct Key
     {
         public bool up;
@@ -40,6 +44,9 @@ public class PlayerController : MonoBehaviour
         mAnimator = GetComponent<Animator>();
         mAnimator.SetBool("Grounded", true);
         mGameRoot = GameObject.Find("GameRoot");
+
+        mSpeedFactorMap.Add(TowerType.CANNON, 0.1f);
+        mSpeedFactorMap.Add(TowerType.MACHINE_GUN, 0.4f);
     }
 
     private void GetInput()
@@ -88,7 +95,7 @@ public class PlayerController : MonoBehaviour
         }
 
         moveVector.Normalize();
-        moveVector *= MOVE_SPEED * Time.deltaTime; 
+        moveVector *= MOVE_SPEED * Time.deltaTime * mMoveSpeedFactor; 
         position += moveVector;
         position.y = 0.0f;
         mAnimator.SetFloat("MoveSpeed", moveVector.magnitude*MOVE_SPEED*5);
@@ -215,10 +222,11 @@ public class PlayerController : MonoBehaviour
             mCarriedItem.transform.parent = transform;
             mCarriedItem.transform.localPosition = Vector3.up * 1.8f;
 
-            MachineGun machineGun = mCarriedItem.GetComponent<MachineGun>();
-            if(machineGun)
+            ITower tower = mCarriedItem.GetComponent<ITower>();
+            if(tower != null)
             {
-                machineGun.IsGrounded = false;
+                tower.SetGrounded(false);
+                mMoveSpeedFactor = mSpeedFactorMap[tower.GetTowerType()];
             }
 
             mClosestItem = null;
@@ -248,10 +256,11 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            MachineGun machineGun = mCarriedItem.GetComponent<MachineGun>();
-            if (machineGun)
+            ITower tower = mCarriedItem.GetComponent<ITower>();
+            if (tower != null)
             {
-                machineGun.IsGrounded = true;
+                tower.SetGrounded(true);
+                mMoveSpeedFactor = 1.0f;
             }
 
             mCarriedItem.transform.localPosition = Vector3.forward * 1.0f;
