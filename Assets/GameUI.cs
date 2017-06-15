@@ -53,9 +53,4 @@ public class GameUI : MonoBehaviour {
     {
         mConfirmUI.SetActive(false);
     }
-
-    public void OnClickConfirmUIOkBtn()
-    {
-
-    }
 }
