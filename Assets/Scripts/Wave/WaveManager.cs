@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 
 [Serializable]
 public class Wave
@@ -23,7 +24,48 @@ public class WaveManager : MonoBehaviour {
 
     public int mCurrentWaveIndex = 0;
     bool mWaveProgress = false;
-    
+
+    private string mFileName;
+    int mWaveCount;
+
+    private void Awake()
+    {
+        mFileName = PlayerPrefs.GetString("STAGE_NAME", "DefaultMap");
+        LoadWaveDataFromFile();
+    }
+
+    public GameObject [] mEnemyPrefabs;
+
+    public void LoadWaveDataFromFile()
+    {
+        string filePath = "WaveData/" + mFileName;
+        TextAsset asset = (TextAsset)Resources.Load(filePath, typeof(TextAsset));
+
+        if (asset == null)
+        {
+            Debug.Log("Can not open File on Asset/" + filePath + ".txt");
+            return;
+        }
+
+        TextReader textReader = new StringReader(asset.text);
+
+        string text = textReader.ReadLine();
+        string waveCountText = text.Substring(text.IndexOf(' ') + 1);
+        mWaveCount = int.Parse(waveCountText);
+        
+        for(int idx = 0; idx < mWaveCount; idx++)
+        {
+            text = textReader.ReadLine();
+            string[] infos = text.Split('\t');
+            Wave wave = new Wave();
+            wave.spawnEnemyCount = int.Parse(infos[0]);
+            wave.spawnEnemyTime = int.Parse(infos[1]);
+            wave.enemyPrefab = mEnemyPrefabs[int.Parse(infos[2])];
+            mWaveList.Add(wave);
+        }
+
+    }
+
     void Update()
     {
         if (mWaveProgress == false)
@@ -77,4 +119,5 @@ public class WaveManager : MonoBehaviour {
     {
         return mEnemyList.Count == 0;
     }
+
 }

@@ -66,7 +66,7 @@ ModelImporter:
     4300004: brows
     4300006: eyes
     4300008: legs
-    7400000: Take 001
+    7400000: walk
     9500000: //RootNode
     13700000: brows
     13700002: Character_mesh
@@ -80,7 +80,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
@@ -93,7 +93,91 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: walk
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 36
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: brows
+        weight: 1
+      - path: Character_mesh
+        weight: 1
+      - path: eyes
+        weight: 1
+      - path: hands
+        weight: 1
+      - path: legs
+        weight: 1
+      - path: StoneyRig_
+        weight: 1
+      - path: StoneyRig_LLegPlatform
+        weight: 1
+      - path: StoneyRig_pelvis
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_LLeg1
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_LLeg1/StoneyRig_LLeg2
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_LLeg1/StoneyRig_LLeg2/StoneyRig_LLegAnkle
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_RLeg1
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_RLeg1/StoneyRig_RLeg2
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_RLeg1/StoneyRig_RLeg2/StoneyRig_RLegAnkle
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_headLBrow
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_headLEye
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_headRBrow
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_headREye
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_LArm1
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_LArm1/StoneyRig_LArm2
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_LArm1/StoneyRig_LArm2/StoneyRig_LArmPalm
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_RArm1
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_RArm1/StoneyRig_RArm2
+        weight: 1
+      - path: StoneyRig_pelvis/StoneyRig_Spine/StoneyRig_head/StoneyRig_RArm1/StoneyRig_RArm2/StoneyRig_RArmPalm
+        weight: 1
+      - path: StoneyRig_RLegPlatform
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -119,6 +203,7 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -129,7 +214,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1

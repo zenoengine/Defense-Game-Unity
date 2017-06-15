@@ -7,7 +7,9 @@ public class GameRoot : MonoBehaviour {
     string mFileName;
 
     public int mRemainedMovement = 0;
+    public int mMaxMovement = 0;
     public int mRemainedLife = 0;
+    public int mMaxLife = 0;
     public int mTowerCount = 0;
 
     public WaveManager mWaveManager;
@@ -26,6 +28,16 @@ public class GameRoot : MonoBehaviour {
         {
             GameUIObject.SendMessage("OnClear");
         }
+
+        if(IsGameOver())
+        {
+            GameUIObject.SendMessage("OnGameOver");
+        }
+    }
+
+    bool IsGameOver()
+    {
+        return mRemainedLife == 0;
     }
 
     public void LoadLevelDataFromFile()
@@ -43,11 +55,13 @@ public class GameRoot : MonoBehaviour {
 
         string text = textReader.ReadLine();
         string movementText = text.Substring(text.IndexOf(' ') + 1);
-        mRemainedMovement = int.Parse(movementText);
+        mMaxMovement = int.Parse(movementText);
+        mRemainedMovement = mMaxMovement;
 
         text = textReader.ReadLine();
         string lifeText = text.Substring(text.IndexOf(' ') + 1);
-        mRemainedLife = int.Parse(lifeText);
+        mMaxLife = int.Parse(lifeText);
+        mRemainedLife = mMaxLife;
 
         text = textReader.ReadLine();
         string towerCountText = text.Substring(text.IndexOf(' ') + 1);

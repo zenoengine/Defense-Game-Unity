@@ -65,7 +65,13 @@ public class EnemyState : MonoBehaviour {
     void OnDestroy()
     {
         GameObject waveManagerObj = GameObject.Find("WaveManager");
-        WaveManager waveManager = waveManagerObj.GetComponent<WaveManager>();
-        waveManager.RemoveEnemy(gameObject);
+        if(waveManagerObj)
+        {
+            WaveManager waveManager = waveManagerObj.GetComponent<WaveManager>();
+            if(waveManager)
+            {
+                waveManager.RemoveEnemy(gameObject);
+            }
+        }
     }
 }

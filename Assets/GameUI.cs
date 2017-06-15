@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour {
@@ -8,6 +9,8 @@ public class GameUI : MonoBehaviour {
     public GameObject mInGameUI;
     public GameObject mPauseUI;
     public GameObject mClearUI;
+    public GameObject mGameOverUI;
+
     public GameRoot mGameRoot;
     public WaveManager mWaveManager;
     public Text mMovementText;
@@ -58,5 +61,15 @@ public class GameUI : MonoBehaviour {
     public void OnClear()
     {
         mClearUI.SetActive(true);
+    }
+
+    public void OnGameOver()
+    {
+        mGameOverUI.SetActive(true);
+    }
+
+    public void OnClickRestart()
+    {
+        SceneManager.LoadScene("main");
     }
 }
